@@ -20,6 +20,45 @@ public class Q2
             adj.get(from).add(to);
         }
 
+        boolean[] visited = new boolean[n];
+        boolean[] inStack = new boolean[n];
+
+        for (int i = 0; i < n; i++) 
+        {
+            if (!visited[i]) 
+            {
+                if (dfs(i, adj, visited, inStack)) 
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean dfs(int node, List<List<Integer>> adj, boolean[] visited, boolean[] inStack) 
+    {
+        visited[node] = true;
+        inStack[node] = true;
+
+        for (int neighbor : adj.get(node)) 
+        {
+            if (!visited[neighbor]) 
+            {
+                if (dfs(neighbor, adj, visited, inStack)) 
+                {
+                    return true;
+                }
+            } 
+            else if (inStack[neighbor]) 
+            {
+                return true;
+            }
+        }
+
+        inStack[node] = false;
+
         return false;
     }
 
@@ -27,7 +66,7 @@ public class Q2
     {
         int n = 4;
 
-        List<List<Integer>> edges = Arrays.asList(Arrays.asList(0, 1), Arrays.asList(1, 2), Arrays.asList(2, 3));
+        List<List<Integer>> edges = Arrays.asList(Arrays.asList(0, 1), Arrays.asList(1, 2), Arrays.asList(2, 0));
 
         System.out.println(dependency(n, edges));
     }
