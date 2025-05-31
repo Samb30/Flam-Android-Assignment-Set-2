@@ -67,23 +67,32 @@ public class Q1
 
         List<List<String>> ans = func(n);
 
+        System.out.print("Output: [");
+
         for (int i = 0; i < ans.size(); i++) 
         {
             List<String> board = ans.get(i);
 
+            System.out.print("[");
+
             for (int j = 0; j < board.size(); j++) 
             {
                 System.out.print("\"" + board.get(j) + "\"");
+
                 if (j < board.size() - 1)
                 {
                     System.out.print(",");
                 }
             }
 
+            System.out.print("]");
+
             if (i < ans.size() - 1)
             {
-                System.out.print("\n");
+                System.out.print(",");
             }
         }
+
+        System.out.println("]");
     }
 }
