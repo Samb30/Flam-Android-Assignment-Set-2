@@ -38,4 +38,8 @@ public class MockWeatherApiService {
 
         return new WeatherResponse(temperature, humidity, condition, windSpeed, "Nagpur");
     }
+
+    public static boolean shouldSimulateFailure() {
+        return random.nextInt(10) == 0; // 10% chance of failure
+    }
 }

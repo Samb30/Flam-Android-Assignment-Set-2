@@ -45,7 +45,7 @@ public class WeatherRepository {
         executor.execute(() -> {
             try {
                 if (MockWeatherApiService.shouldSimulateFailure()) {
-                    callback.onError("API Error: Unable to fetch weather data");
+                    callback.onError("Unable to retrieve weather data. Please try again later.");
                     return;
                 }
 
@@ -72,7 +72,7 @@ public class WeatherRepository {
                     weatherDao.insertWeatherData(entity);
                 }
 
-                callback.onSuccess("Weather data updated successfully");
+                callback.onSuccess("Weather details updated successfully");
 
             } catch (Exception e) {
                 callback.onError("Error: " + e.getMessage());
