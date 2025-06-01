@@ -26,14 +26,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewWeather);
 
         weatherList = new ArrayList<>();
-        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "6:00 AM", R.drawable.cloudy_day_svg));
-        weatherList.add(new WeatherModel("Tuesday, May 28", "Temp: 21°C - 26°C", "55%", "Rainy", "6:00 AM", R.drawable.cloudy_day_svg));
-        // Add more...
-        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "6:00 AM", R.drawable.cloudy_day_svg));
-        weatherList.add(new WeatherModel("Tuesday, May 28", "Temp: 21°C - 26°C", "55%", "Rainy", "6:00 AM", R.drawable.cloudy_day_svg));
-        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "6:00 AM", R.drawable.cloudy_day_svg));
-        weatherList.add(new WeatherModel("Tuesday, May 28", "Temp: 21°C - 26°C", "55%", "Rainy", "6:00 AM", R.drawable.cloudy_day_svg));
-        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "6:00 AM", R.drawable.cloudy_day_svg));
+        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
+        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
+        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
+        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
+        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
+        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
+        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
 
         adapter = new WeatherAdapter(this, weatherList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

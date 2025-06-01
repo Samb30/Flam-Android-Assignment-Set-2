@@ -2,4 +2,7 @@
     <string name="app_name">Weather Track</string>
     <string name="weathertrack">WeatherTrack</string>
     <string name="refresh">Refresh</string>
+    <string name="condition_icon" />
+    <string name="humidity_icon" />
+    <string name="wind_icon" />
 </resources>
