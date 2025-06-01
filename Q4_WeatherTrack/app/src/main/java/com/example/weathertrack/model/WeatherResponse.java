@@ -8,7 +8,6 @@ public class WeatherResponse {
     private String location;
     private long timestamp;
 
-    // Constructors
     public WeatherResponse() {}
 
     public WeatherResponse(double temperature, int humidity, String condition,
@@ -21,7 +20,6 @@ public class WeatherResponse {
         this.timestamp = System.currentTimeMillis();
     }
 
-    // Getters and Setters
     public double getTemperature() { return temperature; }
     public void setTemperature(double temperature) { this.temperature = temperature; }
 

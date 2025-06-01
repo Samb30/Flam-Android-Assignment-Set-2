@@ -1,0 +1,457 @@
+Index: app/src/main/java/com/example/weathertrack/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.weathertrack;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.Toast;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n\r\n    RecyclerView recyclerView;\r\n    WeatherAdapter adapter;\r\n    List<WeatherModel> weatherList;\r\n    private ImageView refreshIcon;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main); // Make sure this matches your layout name\r\n\r\n        recyclerView = findViewById(R.id.recyclerViewWeather);\r\n\r\n        weatherList = new ArrayList<>();\r\n        weatherList.add(new WeatherModel(\"Monday, May 27\", \"Temp: 22°C - 28°C\", \"60%\", \"Sunny\", \"16 km/h\", \"6:00 AM\", R.drawable.cloudy_day_svg));\r\n        weatherList.add(new WeatherModel(\"Monday, May 27\", \"Temp: 22°C - 28°C\", \"60%\", \"Sunny\", \"16 km/h\", \"6:00 AM\", R.drawable.cloudy_day_svg));\r\n        weatherList.add(new WeatherModel(\"Monday, May 27\", \"Temp: 22°C - 28°C\", \"60%\", \"Sunny\", \"16 km/h\", \"6:00 AM\", R.drawable.cloudy_day_svg));\r\n        weatherList.add(new WeatherModel(\"Monday, May 27\", \"Temp: 22°C - 28°C\", \"60%\", \"Sunny\", \"16 km/h\", \"6:00 AM\", R.drawable.cloudy_day_svg));\r\n        weatherList.add(new WeatherModel(\"Monday, May 27\", \"Temp: 22°C - 28°C\", \"60%\", \"Sunny\", \"16 km/h\", \"6:00 AM\", R.drawable.cloudy_day_svg));\r\n        weatherList.add(new WeatherModel(\"Monday, May 27\", \"Temp: 22°C - 28°C\", \"60%\", \"Sunny\", \"16 km/h\", \"6:00 AM\", R.drawable.cloudy_day_svg));\r\n        weatherList.add(new WeatherModel(\"Monday, May 27\", \"Temp: 22°C - 28°C\", \"60%\", \"Sunny\", \"16 km/h\", \"6:00 AM\", R.drawable.cloudy_day_svg));\r\n\r\n        adapter = new WeatherAdapter(this, weatherList);\r\n        recyclerView.setLayoutManager(new LinearLayoutManager(this));\r\n        recyclerView.setAdapter(adapter);\r\n\r\n        // Hook refresh icon\r\n        refreshIcon = findViewById(R.id.ivRefresh);\r\n\r\n        // Handle refresh click\r\n        refreshIcon.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                // Simulate refresh\r\n                Toast.makeText(MainActivity.this, \"Refreshing weather data...\", Toast.LENGTH_SHORT).show();\r\n\r\n                // TODO: Trigger fetch from API or local mock data\r\n            }\r\n        });\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/weathertrack/MainActivity.java b/app/src/main/java/com/example/weathertrack/MainActivity.java
+--- a/app/src/main/java/com/example/weathertrack/MainActivity.java	(revision 5d013ae083e07c592d331a3d9fd7cf81e94eb011)
++++ b/app/src/main/java/com/example/weathertrack/MainActivity.java	(date 1748775604539)
+@@ -2,54 +2,199 @@
+ 
+ import android.os.Bundle;
+ import android.view.View;
++import android.view.ViewGroup;
+ import android.widget.ImageView;
++import android.widget.TextView;
+ import android.widget.Toast;
++
++import androidx.annotation.NonNull;
++import androidx.appcompat.app.AlertDialog;
++import androidx.lifecycle.ViewModelProvider;
+ import androidx.recyclerview.widget.LinearLayoutManager;
+ import androidx.recyclerview.widget.RecyclerView;
+ import androidx.appcompat.app.AppCompatActivity;
++import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
++import androidx.work.Constraints;
++import androidx.work.ExistingPeriodicWorkPolicy;
++import androidx.work.NetworkType;
++import androidx.work.PeriodicWorkRequest;
++import androidx.work.WorkManager;
+ 
+-import java.util.ArrayList;
+-import java.util.List;
++import com.example.weathertrack.adapter.WeeklyWeatherAdapter;
++import com.example.weathertrack.database.WeatherEntity;
++import com.example.weathertrack.viewmodel.WeatherViewModel;
++import com.example.weathertrack.worker.WeatherSyncWorker;
++
++import java.text.SimpleDateFormat;
++import java.util.Date;
++import java.util.Locale;
++import java.util.concurrent.TimeUnit;
+ 
+ public class MainActivity extends AppCompatActivity {
+-
+-    RecyclerView recyclerView;
+-    WeatherAdapter adapter;
+-    List<WeatherModel> weatherList;
+-    private ImageView refreshIcon;
++    private WeatherViewModel weatherViewModel;
++    private TextView tvCurrentTemp, tvCurrentDate, tv1CurrentHumidity, tv1CurrentCondition, tv1CurrentWind, tvDetailTime;
++    private ImageView ivRefresh,  ivCurrentWeatherIcon;
++    private RecyclerView recyclerViewWeather;
++    private final WeeklyWeatherAdapter adapter = new WeeklyWeatherAdapter();
++    private SwipeRefreshLayout swipeRefreshLayout; // Add this to your layout
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_main); // Make sure this matches your layout name
++        setContentView(R.layout.activity_main); // Your first layout file
++
++        initViews();
++        setupViewModel();
++        setupRecyclerView();
++        setupWorkManager();
++        observeData();
++
++        // Initial data fetch if no data exists
++        weatherViewModel.refreshWeatherData();
++    }
++
++    private void initViews() {
++        tvCurrentTemp = findViewById(R.id.CurrentTemp);
++        tvCurrentDate = findViewById(R.id.CurrentDate);
++        tv1CurrentHumidity = findViewById(R.id.CurrentHumidityStats);
++        tv1CurrentCondition = findViewById(R.id.CurrentConditionStats);
++        tv1CurrentWind = findViewById(R.id.CurrentWindStats);
++        tvDetailTime = findViewById(R.id.UpdatedTime);
++        ivRefresh = findViewById(R.id.CurrentRefresh);
++        recyclerViewWeather = findViewById(R.id.recyclerViewWeather);
++        ivCurrentWeatherIcon = findViewById(R.id.CurrentWeather);
++
++        ivRefresh.setOnClickListener(v -> {
++            ivRefresh.animate().rotation(ivRefresh.getRotation() + 360).setDuration(1000);
++            weatherViewModel.refreshWeatherData();
++        });
++    }
++
++    private void setupViewModel() {
++        weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
++    }
++
++    private void setupRecyclerView() {
++        recyclerViewWeather.setLayoutManager(new LinearLayoutManager(this));
++        recyclerViewWeather.setAdapter(adapter);
++
++        // Handle item click - could show detailed view
++        adapter.setOnItemClickListener(this::showWeatherDetails);
++    }
++
++    private void setCurrentWeatherIcon(String condition) {
++        int iconRes = R.drawable.partly_cloudy_svg; // default icon
++
++        switch (condition.toLowerCase()) {
++            case "sunny":
++                iconRes = R.drawable.sunny; // Replace with sunny icon
++                break;
++            case "partly cloudy":
++                iconRes = R.drawable.partly_cloudy_svg;
++                break;
++            case "cloudy":
++                iconRes = R.drawable.cloudy;
++                break;
++            case "snow":
++                iconRes = R.drawable.snow;
++                break;
++            case "rainy":
++                iconRes = R.drawable.rain; // Replace with rainy icon
++                break;
++            case "stormy":
++                iconRes = R.drawable.thunder; // Replace with stormy icon
++                break;
++        }
++        ivCurrentWeatherIcon.setImageResource(iconRes); // ivCurrentWeatherIcon is your ImageView for the icon
++    }
++
++    private void setupWorkManager() {
++        // Cancel existing work
++        WorkManager.getInstance(this).cancelUniqueWork("weather_sync");
+ 
+-        recyclerView = findViewById(R.id.recyclerViewWeather);
++        // Setup periodic weather sync every 6 hours
++        Constraints constraints = new Constraints.Builder()
++                .setRequiredNetworkType(NetworkType.CONNECTED)
++                .build();
+ 
+-        weatherList = new ArrayList<>();
+-        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
+-        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
+-        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
+-        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
+-        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
+-        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
+-        weatherList.add(new WeatherModel("Monday, May 27", "Temp: 22°C - 28°C", "60%", "Sunny", "16 km/h", "6:00 AM", R.drawable.cloudy_day_svg));
++        PeriodicWorkRequest weatherSyncRequest = new PeriodicWorkRequest.Builder(
++                WeatherSyncWorker.class, 6, TimeUnit.HOURS)
++                .setConstraints(constraints)
++                .build();
+ 
+-        adapter = new WeatherAdapter(this, weatherList);
+-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+-        recyclerView.setAdapter(adapter);
++        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
++                "weather_sync",
++                ExistingPeriodicWorkPolicy.REPLACE,
++                weatherSyncRequest);
++    }
+ 
+-        // Hook refresh icon
+-        refreshIcon = findViewById(R.id.ivRefresh);
++    private void observeData() {
++        // Observe latest weather data for current display
++        weatherViewModel.getLatestWeatherData().observe(this, weather -> {
++            if (weather != null) {
++                updateCurrentWeatherDisplay(weather);
++            }
++        });
+ 
+-        // Handle refresh click
+-        refreshIcon.setOnClickListener(new View.OnClickListener() {
+-            @Override
+-            public void onClick(View view) {
+-                // Simulate refresh
+-                Toast.makeText(MainActivity.this, "Refreshing weather data...", Toast.LENGTH_SHORT).show();
+-
+-                // TODO: Trigger fetch from API or local mock data
+-            }
+-        });
++        // Observe weekly weather data for RecyclerView
++        weatherViewModel.getWeeklyWeatherData().observe(this, weatherList -> {
++            if (weatherList != null) {
++                adapter.setWeatherList(weatherList);
++            }
++        });
++
++        // Observe status messages
++        weatherViewModel.getStatusMessage().observe(this, message -> {
++            if (message != null) {
++                showToast(message);
++            }
++        });
++
++        // Observe loading state
++        weatherViewModel.getIsLoading().observe(this, isLoading -> {
++            // You can show/hide progress indicator here
++        });
++    }
++
++    private void updateCurrentWeatherDisplay(WeatherEntity weather) {
++        tvCurrentTemp.setText(String.format("%.0f°C", weather.getTemperature()));
++
++        Date date = new Date(weather.getTimestamp());
++        SimpleDateFormat dateFormat = new SimpleDateFormat("'Today:' MMM dd", Locale.getDefault());
++        SimpleDateFormat timeFormat = new SimpleDateFormat("'Last updated:' h:mm a", Locale.getDefault());
++
++        tvCurrentDate.setText(dateFormat.format(date));
++        tv1CurrentHumidity.setText(String.format("%d%%", weather.getHumidity()));
++        tv1CurrentCondition.setText(weather.getCondition());
++        tv1CurrentWind.setText(String.format("%.0f km/h", weather.getWindSpeed()));
++        tvDetailTime.setText(timeFormat.format(date));
++        setCurrentWeatherIcon(weather.getCondition());
++    }
++
++    private void showWeatherDetails(WeatherEntity weather) {
++        // Create and show detailed weather dialog or navigate to detail activity
++        new AlertDialog.Builder(this)
++                .setTitle("Weather Details")
++                .setMessage(String.format(
++                        "Date: %s\nTemperature: %.1f°C\nHumidity: %d%%\nCondition: %s\nWind Speed: %.1f km/h",
++                        new SimpleDateFormat("EEEE, MMM dd yyyy", Locale.getDefault()).format(new Date(weather.getTimestamp())),
++                        weather.getTemperature(),
++                        weather.getHumidity(),
++                        weather.getCondition(),
++                        weather.getWindSpeed()
++                ))
++                .setPositiveButton("OK", null)
++                .show();
++    }
++
++    private void showToast(String message) {
++        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
++    }
++
++    @Override
++    protected void onDestroy() {
++        super.onDestroy();
++        // Clean old data periodically
++        weatherViewModel.cleanOldData();
+     }
+-}
++}
+\ No newline at end of file
+Index: app/src/main/java/com/example/weathertrack/WeatherModel.java
+===================================================================
+diff --git a/app/src/main/java/com/example/weathertrack/WeatherModel.java b/app/src/main/java/com/example/weathertrack/WeatherModel.java
+deleted file mode 100644
+--- a/app/src/main/java/com/example/weathertrack/WeatherModel.java	(revision 5d013ae083e07c592d331a3d9fd7cf81e94eb011)
++++ /dev/null	(revision 5d013ae083e07c592d331a3d9fd7cf81e94eb011)
+@@ -1,21 +0,0 @@
+-package com.example.weathertrack;
+-
+-public class WeatherModel {
+-    public String day;
+-    public String tempSummary;
+-    public String humidity;
+-    public String condition;
+-    public String wind;
+-    public String lastUpdated;
+-    public int iconResId;
+-
+-    public WeatherModel(String day, String tempSummary, String humidity, String condition, String wind, String lastUpdated, int iconResId) {
+-        this.day = day;
+-        this.tempSummary = tempSummary;
+-        this.humidity = humidity;
+-        this.condition = condition;
+-        this.wind = wind;
+-        this.lastUpdated = lastUpdated;
+-        this.iconResId = iconResId;
+-    }
+-}
+Index: app/src/main/java/com/example/weathertrack/WeatherAdapter.java
+===================================================================
+diff --git a/app/src/main/java/com/example/weathertrack/WeatherAdapter.java b/app/src/main/java/com/example/weathertrack/WeatherAdapter.java
+deleted file mode 100644
+--- a/app/src/main/java/com/example/weathertrack/WeatherAdapter.java	(revision 5d013ae083e07c592d331a3d9fd7cf81e94eb011)
++++ /dev/null	(revision 5d013ae083e07c592d331a3d9fd7cf81e94eb011)
+@@ -1,82 +0,0 @@
+-package com.example.weathertrack;
+-
+-import android.content.Context;
+-import android.view.LayoutInflater;
+-import android.view.View;
+-import android.view.ViewGroup;
+-import android.view.animation.AlphaAnimation;
+-import android.widget.ImageView;
+-import android.widget.LinearLayout;
+-import android.widget.TextView;
+-
+-import androidx.cardview.widget.CardView;
+-import androidx.recyclerview.widget.RecyclerView;
+-
+-import java.util.List;
+-
+-public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder> {
+-
+-    private final List<WeatherModel> weatherList;
+-    private final Context context;
+-
+-    public WeatherAdapter(Context context, List<WeatherModel> weatherList) {
+-        this.context = context;
+-        this.weatherList = weatherList;
+-    }
+-
+-    @Override
+-    public WeatherViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+-        View view = LayoutInflater.from(context).inflate(R.layout.item_weather_day, parent, false);
+-        return new WeatherViewHolder(view);
+-    }
+-
+-    @Override
+-    public void onBindViewHolder(WeatherViewHolder holder, int position) {
+-        WeatherModel model = weatherList.get(position);
+-
+-        holder.tvDay.setText(model.day);
+-        holder.tvTempSummary.setText(model.tempSummary);
+-        holder.tvDetailHumidity.setText("Humidity: " + model.humidity);
+-        holder.tvDetailCondition.setText("Condition: " + model.condition);
+-        holder.tvDetailTime.setText("Last updated: " + model.lastUpdated);
+-        holder.ivIcon.setImageResource(model.iconResId);
+-
+-        // Toggle expandable layout
+-        holder.itemView.setOnClickListener(v -> {
+-            if (holder.expandedLayout.getVisibility() == View.GONE) {
+-                fadeIn(holder.expandedLayout);
+-                holder.expandedLayout.setVisibility(View.VISIBLE);
+-            } else {
+-                holder.expandedLayout.setVisibility(View.GONE);
+-            }
+-        });
+-    }
+-
+-    @Override
+-    public int getItemCount() {
+-        return weatherList.size();
+-    }
+-
+-    public static class WeatherViewHolder extends RecyclerView.ViewHolder {
+-        TextView tvDay, tvTempSummary, tvDetailHumidity, tvDetailCondition, tvDetailTime;
+-        ImageView ivIcon;
+-        LinearLayout expandedLayout;
+-
+-        public WeatherViewHolder(View itemView) {
+-            super(itemView);
+-            tvDay = itemView.findViewById(R.id.tvDay);
+-            tvTempSummary = itemView.findViewById(R.id.tvTempSummary);
+-            tvDetailHumidity = itemView.findViewById(R.id.tvDetailHumidity);
+-            tvDetailCondition = itemView.findViewById(R.id.tvDetailCondition);
+-            tvDetailTime = itemView.findViewById(R.id.tvDetailTime);
+-            ivIcon = itemView.findViewById(R.id.ivIcon);
+-            expandedLayout = itemView.findViewById(R.id.expandedLayout);
+-        }
+-    }
+-
+-    private void fadeIn(View view) {
+-        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+-        anim.setDuration(300);
+-        view.startAnimation(anim);
+-    }
+-}
+Index: gradle/libs.versions.toml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>[versions]\r\nagp = \"8.5.0\"\r\njunit = \"4.13.2\"\r\njunitVersion = \"1.2.1\"\r\nespressoCore = \"3.6.1\"\r\nappcompat = \"1.7.0\"\r\nmaterial = \"1.12.0\"\r\nactivity = \"1.10.1\"\r\nconstraintlayout = \"2.2.1\"\r\nswiperefreshlayout = \"1.1.0\"\r\n\r\n[libraries]\r\njunit = { group = \"junit\", name = \"junit\", version.ref = \"junit\" }\r\next-junit = { group = \"androidx.test.ext\", name = \"junit\", version.ref = \"junitVersion\" }\r\nespresso-core = { group = \"androidx.test.espresso\", name = \"espresso-core\", version.ref = \"espressoCore\" }\r\nappcompat = { group = \"androidx.appcompat\", name = \"appcompat\", version.ref = \"appcompat\" }\r\nmaterial = { group = \"com.google.android.material\", name = \"material\", version.ref = \"material\" }\r\nactivity = { group = \"androidx.activity\", name = \"activity\", version.ref = \"activity\" }\r\nconstraintlayout = { group = \"androidx.constraintlayout\", name = \"constraintlayout\", version.ref = \"constraintlayout\" }\r\nswiperefreshlayout = { group = \"androidx.swiperefreshlayout\", name = \"swiperefreshlayout\", version.ref = \"swiperefreshlayout\" }\r\n\r\n[plugins]\r\nandroid-application = { id = \"com.android.application\", version.ref = \"agp\" }\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradle/libs.versions.toml b/gradle/libs.versions.toml
+--- a/gradle/libs.versions.toml	(revision 5d013ae083e07c592d331a3d9fd7cf81e94eb011)
++++ b/gradle/libs.versions.toml	(date 1748770109582)
+@@ -8,6 +8,7 @@
+ activity = "1.10.1"
+ constraintlayout = "2.2.1"
+ swiperefreshlayout = "1.1.0"
++lifecycleViewmodelAndroid = "2.9.0"
+ 
+ [libraries]
+ junit = { group = "junit", name = "junit", version.ref = "junit" }
+@@ -18,6 +19,7 @@
+ activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+ swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
++lifecycle-viewmodel-android = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-android", version.ref = "lifecycleViewmodelAndroid" }
+ 
+ [plugins]
+ android-application = { id = "com.android.application", version.ref = "agp" }
+Index: app/build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    alias(libs.plugins.android.application)\r\n}\r\n\r\nandroid {\r\n    namespace = \"com.example.weathertrack\"\r\n    compileSdk = 35\r\n\r\n    defaultConfig {\r\n        applicationId = \"com.example.weathertrack\"\r\n        minSdk = 24\r\n        targetSdk = 34\r\n        versionCode = 1\r\n        versionName = \"1.0\"\r\n\r\n        testInstrumentationRunner = \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            isMinifyEnabled = false\r\n            proguardFiles(\r\n                getDefaultProguardFile(\"proguard-android-optimize.txt\"),\r\n                \"proguard-rules.pro\"\r\n            )\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility = JavaVersion.VERSION_1_8\r\n        targetCompatibility = JavaVersion.VERSION_1_8\r\n    }\r\n}\r\n\r\ndependencies {\r\n\r\n    implementation(libs.appcompat)\r\n    implementation(libs.material)\r\n    implementation(libs.activity)\r\n    implementation(libs.constraintlayout)\r\n    implementation(libs.swiperefreshlayout)\r\n    testImplementation(libs.junit)\r\n    androidTestImplementation(libs.ext.junit)\r\n    androidTestImplementation(libs.espresso.core)\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+--- a/app/build.gradle.kts	(revision 5d013ae083e07c592d331a3d9fd7cf81e94eb011)
++++ b/app/build.gradle.kts	(date 1748770109613)
+@@ -38,7 +38,27 @@
+     implementation(libs.activity)
+     implementation(libs.constraintlayout)
+     implementation(libs.swiperefreshlayout)
++    implementation(libs.lifecycle.viewmodel.android)
+     testImplementation(libs.junit)
+     androidTestImplementation(libs.ext.junit)
+     androidTestImplementation(libs.espresso.core)
++
++    // Room
++    implementation ("androidx.room:room-runtime:2.5.0")
++    annotationProcessor("androidx.room:room-compiler:2.5.0")
++    implementation ("androidx.room:room-ktx:2.5.0")
++
++    // ViewModel and LiveData
++    implementation ("androidx.lifecycle:lifecycle-viewmodel:2.6.2")
++    implementation ("androidx.lifecycle:lifecycle-livedata:2.6.2")
++
++    // WorkManager
++    implementation ("androidx.work:work-runtime:2.8.1")
++
++    // RecyclerView and CardView
++    implementation ("androidx.recyclerview:recyclerview:1.3.2")
++    implementation ("androidx.cardview:cardview:1.0.0")
++
++    // SwipeRefreshLayout (optional)
++    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+ }
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:dataExtractionRules=\"@xml/data_extraction_rules\"\r\n        android:fullBackupContent=\"@xml/backup_rules\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\"\r\n        tools:targetApi=\"31\">\r\n        <activity\r\n            android:name=\".MainActivity\"\r\n            android:exported=\"true\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision 5d013ae083e07c592d331a3d9fd7cf81e94eb011)
++++ b/app/src/main/AndroidManifest.xml	(date 1748769796448)
+@@ -2,6 +2,10 @@
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools">
+ 
++    <uses-permission android:name="android.permission.INTERNET" />
++    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
++    <uses-permission android:name="android.permission.WAKE_LOCK" />
++
+     <application
+         android:allowBackup="true"
+         android:dataExtractionRules="@xml/data_extraction_rules"
+@@ -12,6 +16,9 @@
+         android:supportsRtl="true"
+         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+         tools:targetApi="31">
++        <service
++            android:name=".WeatherSyncWorker"
++            android:exported="false" />
+         <activity
+             android:name=".MainActivity"
+             android:exported="true">

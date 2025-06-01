@@ -1,7 +1,6 @@
 package com.example.weathertrack.service;
 
 import com.example.weathertrack.model.WeatherResponse;
-
 import java.util.Calendar;
 import java.util.Random;
 
