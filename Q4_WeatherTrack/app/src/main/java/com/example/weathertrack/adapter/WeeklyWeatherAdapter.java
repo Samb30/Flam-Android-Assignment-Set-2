@@ -111,7 +111,7 @@ public class WeeklyWeatherAdapter extends RecyclerView.Adapter<WeeklyWeatherAdap
                 case "rainy":
                     iconRes = R.drawable.rain;
                     break;
-                case "stormy":
+                case "thunderstorm":
                     iconRes = R.drawable.thunder;
                     break;
             }
