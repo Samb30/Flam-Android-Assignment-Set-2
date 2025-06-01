@@ -15,21 +15,19 @@
         android:orientation="vertical"
         android:padding="12dp">
 
-        <!-- Top Row: Icon + Texts + Refresh Icon -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <!-- Weather Icon -->
             <ImageView
-                android:id="@+id/ivIcon"
+                android:id="@+id/SummaryWeatherIcon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/cloudy_day_svg" />
+                android:contentDescription="@string/weather_icon"
+                android:src="@drawable/partly_cloudy_svg" />
 
-            <!-- Text Column -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -39,7 +37,7 @@
                 android:gravity="start">
 
                 <TextView
-                    android:id="@+id/tvDay"
+                    android:id="@+id/SummaryDay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Monday, May 27"
@@ -48,7 +46,7 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tvTempSummary"
+                    android:id="@+id/SummaryTemperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_regular"
@@ -56,17 +54,15 @@
                     android:text="Temp: 28°C" />
             </LinearLayout>
 
-            <!-- Refresh Icon -->
             <ImageView
-                android:id="@+id/ivRefresh"
+                android:id="@+id/SummaryExpandIcon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/arrow_down"
-                android:contentDescription="Refresh" />
+                android:contentDescription="@string/expand" />
         </LinearLayout>
 
-        <!-- Expandable section (initially hidden) -->
         <LinearLayout
             android:id="@+id/expandedLayout"
             android:layout_width="match_parent"
@@ -76,25 +72,25 @@
             android:paddingTop="8dp">
 
             <TextView
-                android:id="@+id/tvDetailHumidity"
+                android:id="@+id/HumidityInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Humidity: 60%" />
 
             <TextView
-                android:id="@+id/tvDetailCondition"
+                android:id="@+id/ConditionInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Condition: Sunny" />
 
             <TextView
-                android:id="@+id/tv2DetailCondition"
+                android:id="@+id/WindInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Wind: 16 km/h" />
 
             <TextView
-                android:id="@+id/tvDetailTime"
+                android:id="@+id/TimeInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Last updated: 6:00 AM" />

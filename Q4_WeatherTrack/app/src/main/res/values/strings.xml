@@ -5,4 +5,8 @@
     <string name="condition_icon" />
     <string name="humidity_icon" />
     <string name="wind_icon" />
+    <string name="weather_icon">icon</string>
+    <string name="expand">expand</string>
+    <string name="nagpur">Nagpur</string>
+    <string name="weekly_trends">Weekly Trends</string>
 </resources>

@@ -9,7 +9,7 @@
     android:background="#aed6f1">
 
     <TextView
-        android:id="@+id/tvAppName"
+        android:id="@+id/AppName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/weathertrack"
@@ -20,7 +20,6 @@
         android:fontFamily="@font/lato_black"
         android:textColor="@android:color/black" />
 
-    <!-- Current Weather Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/currentWeatherCard"
         android:layout_width="match_parent"
@@ -35,7 +34,6 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
-            <!-- Refresh Icon -->
             <LinearLayout
                 android:id="@+id/currentInfoLayout"
                 android:orientation="vertical"
@@ -47,7 +45,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tvCurrentTemp"
+                    android:id="@+id/CurrentTemp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="26°C"
@@ -55,7 +53,7 @@
                     android:fontFamily="@font/lato_bold"
                     android:textSize="46sp" />
                 <ImageView
-                    android:id="@+id/ivRefresh"
+                    android:id="@+id/CurrentRefresh"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="end|top"
@@ -64,10 +62,8 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:contentDescription="@string/refresh"
-                    android:src="@drawable/refresh_icon" />
+                    android:src="@drawable/refresh" />
             </FrameLayout>
-
-
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -76,10 +72,35 @@
                     android:layout_marginTop="8dp">
 
                     <TextView
-                        android:id="@+id/tvCurrentDate"
+                        android:id="@+id/CurrentDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Today: May 31"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/lato_regular"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <ImageView
+                        android:src="@drawable/location"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="3dp"
+                        android:contentDescription="@string/humidity_icon" />
+
+                    <TextView
+                        android:id="@+id/CurrentLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nagpur"
+                        android:layout_marginStart="5dp"
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:fontFamily="@font/lato_regular"
@@ -102,14 +123,14 @@
                     android:gravity="center_horizontal">
 
                     <ImageView
-                        android:src="@drawable/humidity_svg"
+                        android:src="@drawable/humidity"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:contentDescription="@string/humidity_icon"
                         android:layout_gravity="center_horizontal" />
 
                     <TextView
-                        android:id="@+id/tvCurrentHumidity"
+                        android:id="@+id/CurrentHumidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Humidity"
@@ -121,7 +142,7 @@
                         android:layout_marginTop="5dp"/>
 
                     <TextView
-                        android:id="@+id/tv1CurrentHumidity"
+                        android:id="@+id/CurrentHumidityStats"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lato_regular"
@@ -144,10 +165,10 @@
                         android:layout_height="30dp"
                         android:contentDescription="@string/condition_icon"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/cloudy_day_svg" />
+                        android:src="@drawable/partly_cloudy_svg" />
 
                     <TextView
-                        android:id="@+id/tvCurrentCondition"
+                        android:id="@+id/CurrentCondition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -159,7 +180,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv1CurrentCondition"
+                        android:id="@+id/CurrentConditionStats"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lato_regular"
@@ -185,7 +206,7 @@
                         android:layout_gravity="center_horizontal"/>
 
                     <TextView
-                        android:id="@+id/tvCurrentWind"
+                        android:id="@+id/CurrentWind"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -197,7 +218,7 @@
                         android:text="Wind"/>
 
                     <TextView
-                        android:id="@+id/tv1CurrentWind"
+                        android:id="@+id/CurrentWindStats"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
@@ -215,21 +236,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp">
                 <TextView
-                    android:id="@+id/tvDetailTime"
+                    android:id="@+id/UpdatedTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:text="Last updated: 6:00 AM"/>
+                    android:text="Last updated: "/>
             </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Weekly Summary Title -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Weekly Trends"
+        android:text="@string/weekly_trends"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -238,7 +258,6 @@
         android:textAlignment="center"
         android:layout_marginBottom="8dp"/>
 
-    <!-- Weekly Summary List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewWeather"
         android:layout_width="match_parent"
