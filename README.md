@@ -40,12 +40,25 @@ This solution is written in Java language which solves the problem of detecting 
 ---
 
 <p align="justify">
-The application is built using Java and Android Studio with the MVVM architecture and Room database for local storage. It simulates a weather tracking app that fetches current weather data from a mock API and saves it locally every 6 hours using WorkManager for background synchronization. The app displays weekly temperature trends through a list, with detailed daily weather information. 
+The application is built using Java and Android Studio with the MVVM architecture. It is an android weather tracking app that fetches, stores, and displays current and weekly weather data with automatic background syncing every 6 hours and offline support through the usage of Room database.
 </p>
 
 ---
 
-### ⚙️ Tech Stack
+### Key Features
+
+- Displays weather data such as Temperature, Humidity, Condition, and Wind Speed.
+- Fetches and saves weather data in the local Room Database with a timestamp.
+- Auto sync weather data every 6 hours automatically in the background using WorkManager.
+- Manual refresh option to update weather data.
+- Displays temperature trends over the past 7 days.
+- Detailed daily weather info is available by clicking on specific days.
+- Implemented MVVM architecture with separate layers for Database, Model, Repository, Service, and ViewModel.
+- Error handling for network failures.
+
+---
+
+### Tech Stack
 
 - Java
 - Android SDK
@@ -56,7 +69,7 @@ The application is built using Java and Android Studio with the MVVM architectur
 
 ---
 
-### 📱 Screenshots
+### Screenshots
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/fbd1aaee-7c72-4e58-b4c1-9e989fc4a216" width="200" />
@@ -71,18 +84,13 @@ The application is built using Java and Android Studio with the MVVM architectur
 
 ---
 
-### 🌟 Key Features
-
-- Fetches and saves weather data every 6 hours automatically in the background
-- Manual refresh option to update weather stats on demand
-- Displays temperature trends over the past 7 days with interactive graphs/lists
-- Detailed daily weather info available by clicking on specific days
-- Implements Clean Architecture with clear separation of concerns
-- Graceful error handling with user-friendly messages for network or database issues
-
----
 
 ### 🚀 How to Run
 
-1. Clone the repository:
+1. Clone the repository.
+2. Open in Android Studio.
+3. Build and run on an emulator or physical device.
+4. The app fetches mock weather data and updates every 6 hours automatically.
+5. Use the manual refresh button to trigger immediate updates.
+
 
