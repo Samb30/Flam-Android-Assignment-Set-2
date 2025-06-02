@@ -85,7 +85,7 @@ public class WeatherRepository {
 
     public void cleanOldData() {
         executor.execute(() -> {
-            long cutoffTime = System.currentTimeMillis() - (30 * 24 * 60 * 60 * 1000L); // 30 days
+            long cutoffTime = System.currentTimeMillis() - (30 * 24 * 60 * 60 * 1000L);
             weatherDao.deleteOldData(cutoffTime);
         });
     }
