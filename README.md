@@ -60,10 +60,8 @@ The application is built using Java and Android Studio with the MVVM architectur
 
 <!-- Add your app screenshots here -->
 <p align="center">
-  <img src="![WhatsApp Image 2025-06-02 at 16 37 45_b73c244e](https://github.com/user-attachments/assets/1ed3587c-1e41-4abb-a4f8-2df27309798b)
-g" alt="Home Screen" width="250" />
-  <img src="./screenshots/weekly_summary.png" alt="Weekly Summary" width="250" />
-  <img src="./screenshots/daily_details.png" alt="Daily Details" width="250" />
+![image](https://github.com/user-attachments/assets/fbd1aaee-7c72-4e58-b4c1-9e989fc4a216) 
+
 </p>
 
 ---
