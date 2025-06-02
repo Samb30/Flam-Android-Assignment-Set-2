@@ -2,13 +2,20 @@ package com.example.weathertrack.worker;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.NetworkCapabilities;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
+
 import com.example.weathertrack.repository.WeatherRepository;
+
 import org.jspecify.annotations.NonNull;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -28,8 +35,13 @@ public class WeatherSyncWorker extends Worker {
             WeatherRepository repository = new WeatherRepository((Application) getApplicationContext());
 
             if (!isNetworkAvailable()) {
-                Log.w(TAG, "No network available, sync failed.");
-                return Result.retry();
+                Log.w(TAG, "No network available, please try again later.");
+
+                Data output = new Data.Builder()
+                        .putBoolean("no_internet", true)
+                        .build();
+
+                return Result.failure(output);
             }
 
             CountDownLatch latch = new CountDownLatch(1);
@@ -51,7 +63,11 @@ public class WeatherSyncWorker extends Worker {
                 }
             });
 
-            latch.await(30, TimeUnit.SECONDS);
+            boolean completed = latch.await(30, TimeUnit.SECONDS);
+            if (!completed) {
+                Log.e(TAG, "Weather sync timed out");
+                return Result.retry();
+            }
             return result[0];
 
         } catch (Exception e) {
@@ -64,10 +80,15 @@ public class WeatherSyncWorker extends Worker {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if (connectivityManager != null) {
-            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        if (connectivityManager == null) {
+            return false;
         }
-        return false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        NetworkCapabilities nc = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+        return nc != null && nc.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
+        }else {
+            android.net.NetworkInfo ni = connectivityManager.getActiveNetworkInfo();
+            return ni != null && ni.isConnected();
+        }
     }
 }
