@@ -39,26 +39,20 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.swiperefreshlayout)
     implementation(libs.lifecycle.viewmodel.android)
+    implementation(libs.filament.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
     // Room
-    implementation ("androidx.room:room-runtime:2.5.0")
-    annotationProcessor("androidx.room:room-compiler:2.5.0")
-    implementation ("androidx.room:room-ktx:2.5.0")
-
+    implementation (libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
+    implementation (libs.room.ktx)
     // ViewModel and LiveData
-    implementation ("androidx.lifecycle:lifecycle-viewmodel:2.6.2")
-    implementation ("androidx.lifecycle:lifecycle-livedata:2.6.2")
-
+    implementation (libs.lifecycle.viewmodel)
+    implementation (libs.lifecycle.livedata)
     // WorkManager
-    implementation ("androidx.work:work-runtime:2.8.1")
-
+    implementation (libs.work.runtime)
     // RecyclerView and CardView
-    implementation ("androidx.recyclerview:recyclerview:1.3.2")
-    implementation ("androidx.cardview:cardview:1.0.0")
-
-    // SwipeRefreshLayout (optional)
-    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation (libs.recyclerview)
+    implementation (libs.cardview)
 }
