@@ -1,20 +1,23 @@
 package com.example.weathertrack.viewmodel;
 
 import android.app.Application;
+
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
 import com.example.weathertrack.database.WeatherEntity;
 import com.example.weathertrack.repository.WeatherRepository;
+
 import java.util.List;
 
 public class WeatherViewModel extends AndroidViewModel {
-    private WeatherRepository repository;
-    private LiveData<List<WeatherEntity>> allWeatherData;
-    private LiveData<WeatherEntity> latestWeatherData;
-    private LiveData<List<WeatherEntity>> weeklyWeatherData;
-    private MutableLiveData<String> statusMessage;
-    private MutableLiveData<Boolean> isLoading;
+    private final WeatherRepository repository;
+    private final LiveData<List<WeatherEntity>> allWeatherData;
+    private final LiveData<WeatherEntity> latestWeatherData;
+    private final LiveData<List<WeatherEntity>> weeklyWeatherData;
+    private final MutableLiveData<String> statusMessage;
+    private final MutableLiveData<Boolean> isLoading;
 
     public WeatherViewModel(Application application) {
         super(application);

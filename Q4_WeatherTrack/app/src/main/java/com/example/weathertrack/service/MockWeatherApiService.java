@@ -1,6 +1,7 @@
 package com.example.weathertrack.service;
 
 import com.example.weathertrack.model.WeatherResponse;
+
 import java.util.Calendar;
 import java.util.Random;
 
@@ -40,6 +41,6 @@ public class MockWeatherApiService {
     }
 
     public static boolean shouldSimulateFailure() {
-        return random.nextInt(10) == 0; // 10% chance of failure
+        return random.nextInt(10) == 0;
     }
 }

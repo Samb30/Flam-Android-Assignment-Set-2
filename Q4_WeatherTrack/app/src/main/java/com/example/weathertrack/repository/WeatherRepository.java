@@ -1,12 +1,15 @@
 package com.example.weathertrack.repository;
 
 import android.app.Application;
+
 import androidx.lifecycle.LiveData;
+
 import com.example.weathertrack.database.WeatherDao;
 import com.example.weathertrack.database.WeatherDatabase;
 import com.example.weathertrack.database.WeatherEntity;
 import com.example.weathertrack.model.WeatherResponse;
 import com.example.weathertrack.service.MockWeatherApiService;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -89,6 +92,7 @@ public class WeatherRepository {
 
     public interface WeatherFetchCallback {
         void onSuccess(String message);
+
         void onError(String error);
     }
 }
