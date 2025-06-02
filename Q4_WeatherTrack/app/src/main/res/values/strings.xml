@@ -9,4 +9,19 @@
     <string name="expand">expand</string>
     <string name="nagpur">Nagpur</string>
     <string name="weekly_trends">Weekly Trends</string>
+    <string name="_26_c">26°C</string>
+    <string name="today_may_31">Today: May 31</string>
+    <string name="humidity">Humidity</string>
+    <string name="_45">45%</string>
+    <string name="condition">Condition</string>
+    <string name="partly_cloudy">Partly Cloudy</string>
+    <string name="wind">Wind</string>
+    <string name="_16_km_h">16 km/h</string>
+    <string name="last_updated">Last updated:</string>
+    <string name="monday_may_27">Monday, May 27</string>
+    <string name="temp_28_c">Temp: 28°C</string>
+    <string name="last_updated_6_00_am">Last updated: 6:00 AM</string>
+    <string name="wind_16_km_h">Wind: 16 km/h</string>
+    <string name="condition_sunny">Condition: Sunny</string>
+    <string name="humidity_60">Humidity: 60%</string>
 </resources>

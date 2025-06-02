@@ -1,33 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#aed6f1">
+    android:background="#aed6f1"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/AppName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/weathertrack"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/lato_black"
         android:gravity="center"
         android:padding="12dp"
-        android:fontFamily="@font/lato_black"
-        android:textColor="@android:color/black" />
+        android:text="@string/weathertrack"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/currentWeatherCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="16dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginTop="10dp"
-        app:cardBackgroundColor="#ffffff">
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="#ffffff"
+        app:cardCornerRadius="16dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -36,213 +35,203 @@
 
             <LinearLayout
                 android:id="@+id/currentInfoLayout"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/CurrentTemp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="26°C"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/lato_bold"
-                    android:textSize="46sp" />
-                <ImageView
-                    android:id="@+id/CurrentRefresh"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="end|top"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="4dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:contentDescription="@string/refresh"
-                    android:src="@drawable/refresh" />
-            </FrameLayout>
+                    <TextView
+                        android:id="@+id/CurrentTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="@string/_26_c"
+                        android:textColor="@color/black"
+                        android:textSize="46sp" />
+
+                    <ImageView
+                        android:id="@+id/CurrentRefresh"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end|top"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="4dp"
+                        android:clickable="true"
+                        android:contentDescription="@string/refresh"
+                        android:focusable="true"
+                        android:src="@drawable/refresh" />
+                </FrameLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/CurrentDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Today: May 31"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
                         android:fontFamily="@font/lato_regular"
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
-
-                    <ImageView
-                        android:src="@drawable/location"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginTop="3dp"
-                        android:contentDescription="@string/humidity_icon" />
-
-                    <TextView
-                        android:id="@+id/CurrentLocation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/nagpur"
-                        android:layout_marginStart="5dp"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:fontFamily="@font/lato_regular"
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:weightSum="3"
-                android:layout_marginTop="15dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal">
-
-                    <ImageView
-                        android:src="@drawable/humidity"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:contentDescription="@string/humidity_icon"
-                        android:layout_gravity="center_horizontal" />
-
-                    <TextView
-                        android:id="@+id/CurrentHumidity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Humidity"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/lato_regular"
-                        android:gravity="center"
-                        android:layout_marginTop="5dp"/>
-
-                    <TextView
-                        android:id="@+id/CurrentHumidityStats"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_regular"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="3dp"
-                        android:text="45%" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal">
-
-                    <ImageView
-                        android:id="@+id/CurrentWeather"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:contentDescription="@string/condition_icon"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/partly_cloudy_svg" />
-
-                    <TextView
-                        android:id="@+id/CurrentCondition"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/lato_regular"
-                        android:gravity="center"
-                        android:text="Condition"
-                        android:textColor="@color/black"
+                        android:text="@string/today_may_31"
+                        android:textColor="@android:color/black"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+                </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/CurrentConditionStats"
-                        android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/CurrentLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="@string/nagpur"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/location" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:baselineAligned="false"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_regular"
-                        android:gravity="center"
-                        android:text="Partly Cloudy"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="3dp"
-                        android:textSize="16sp" />
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_horizontal"
+                            android:contentDescription="@string/humidity_icon"
+                            android:src="@drawable/humidity" />
+
+                        <TextView
+                            android:id="@+id/CurrentHumidity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/lato_regular"
+                            android:gravity="center"
+                            android:text="@string/humidity"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/CurrentHumidityStats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="2dp"
+                            android:fontFamily="@font/lato_regular"
+                            android:gravity="center"
+                            android:text="@string/_45"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/CurrentWeather"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_horizontal"
+                            android:contentDescription="@string/condition_icon"
+                            android:src="@drawable/partly_cloudy" />
+
+                        <TextView
+                            android:id="@+id/CurrentCondition"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/lato_regular"
+                            android:gravity="center"
+                            android:text="@string/condition"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/CurrentConditionStats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="2dp"
+                            android:fontFamily="@font/lato_regular"
+                            android:gravity="center"
+                            android:text="@string/partly_cloudy"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_horizontal"
+                            android:contentDescription="@string/wind_icon"
+                            android:src="@drawable/wind" />
+
+                        <TextView
+                            android:id="@+id/CurrentWind"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/lato_regular"
+                            android:gravity="center"
+                            android:text="@string/wind"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/CurrentWindStats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="2dp"
+                            android:fontFamily="@font/lato_regular"
+                            android:gravity="center"
+                            android:text="@string/_16_km_h"
+                            android:textSize="16sp" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal">
-
-                    <ImageView
-                        android:src="@drawable/wind"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:contentDescription="@string/wind_icon"
-                        android:layout_gravity="center_horizontal"/>
-
-                    <TextView
-                        android:id="@+id/CurrentWind"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:fontFamily="@font/lato_regular"
-                        android:text="Wind"/>
-
-                    <TextView
-                        android:id="@+id/CurrentWindStats"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:fontFamily="@font/lato_regular"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginBottom="2dp"
-                        android:text="16 km/h"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp">
-                <TextView
-                    android:id="@+id/UpdatedTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:text="Last updated: "/>
-            </LinearLayout>
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/UpdatedTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/last_updated"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
@@ -250,18 +239,18 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/weekly_trends"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
         android:fontFamily="@font/lato_regular"
         android:gravity="center"
+        android:text="@string/weekly_trends"
         android:textAlignment="center"
-        android:layout_marginBottom="8dp"/>
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewWeather"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 </LinearLayout>
