@@ -93,4 +93,4 @@ The application is built using Java and Android Studio with the MVVM architectur
 4. The app fetches mock weather data and updates every 6 hours automatically.
 5. Use the manual refresh button to trigger immediate updates.
 
-## Note: Some comments are added for understanding purposes.
+Note: Some comments are added for understanding purposes.
