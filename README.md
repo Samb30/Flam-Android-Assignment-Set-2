@@ -58,11 +58,7 @@ The application is built using Java and Android Studio with the MVVM architectur
 
 ### 📱 Screenshots
 
-<!-- Add your app screenshots here -->
-<p align="center">
 ![image](https://github.com/user-attachments/assets/fbd1aaee-7c72-4e58-b4c1-9e989fc4a216) 
-
-</p>
 
 ---
 
