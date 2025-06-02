@@ -75,7 +75,7 @@ public class WeatherRepository {
                     weatherDao.insertWeatherData(entity);
                 }
 
-                callback.onSuccess("Weather details updated successfully");
+                callback.onSuccess("Weather details updated successfully.");
 
             } catch (Exception e) {
                 callback.onError("Error: " + e.getMessage());
