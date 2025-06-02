@@ -24,4 +24,6 @@
     <string name="wind_16_km_h">Wind: 16 km/h</string>
     <string name="condition_sunny">Condition: Sunny</string>
     <string name="humidity_60">Humidity: 60%</string>
+    <string name="no_data_message">No weather data available.\nConnect to the internet and tap refresh.</string>
+    <string name="no_data_icon">No data icon</string>
 </resources>
