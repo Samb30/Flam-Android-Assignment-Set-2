@@ -1,6 +1,7 @@
 package com.example.weathertrack.database;
 
 import android.content.Context;
+
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -10,8 +11,6 @@ import androidx.room.TypeConverters;
 @TypeConverters({DateConverter.class})
 public abstract class WeatherDatabase extends RoomDatabase {
     private static volatile WeatherDatabase INSTANCE;
-
-    public abstract WeatherDao weatherDao();
 
     public static WeatherDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -25,4 +24,6 @@ public abstract class WeatherDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
+
+    public abstract WeatherDao weatherDao();
 }

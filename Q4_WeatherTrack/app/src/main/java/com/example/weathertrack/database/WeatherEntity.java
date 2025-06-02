@@ -27,7 +27,8 @@ public class WeatherEntity {
     @ColumnInfo(name = "date_string")
     private String dateString;
 
-    public WeatherEntity() {}
+    public WeatherEntity() {
+    }
 
     public WeatherEntity(double temperature, int humidity, String condition,
                          double windSpeed, long timestamp, String dateString) {
@@ -39,24 +40,59 @@ public class WeatherEntity {
         this.dateString = dateString;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public double getTemperature() { return temperature; }
-    public void setTemperature(double temperature) { this.temperature = temperature; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public int getHumidity() { return humidity; }
-    public void setHumidity(int humidity) { this.humidity = humidity; }
+    public double getTemperature() {
+        return temperature;
+    }
 
-    public String getCondition() { return condition; }
-    public void setCondition(String condition) { this.condition = condition; }
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
 
-    public double getWindSpeed() { return windSpeed; }
-    public void setWindSpeed(double windSpeed) { this.windSpeed = windSpeed; }
+    public int getHumidity() {
+        return humidity;
+    }
 
-    public long getTimestamp() { return timestamp; }
-    public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
+    public void setHumidity(int humidity) {
+        this.humidity = humidity;
+    }
 
-    public String getDateString() { return dateString; }
-    public void setDateString(String dateString) { this.dateString = dateString; }
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public double getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(double windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
+    }
 }

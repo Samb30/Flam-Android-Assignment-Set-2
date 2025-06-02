@@ -6,23 +6,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.weathertrack.R;
 import com.example.weathertrack.database.WeatherEntity;
+
 import org.jspecify.annotations.NonNull;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class WeeklyWeatherAdapter extends RecyclerView.Adapter<WeeklyWeatherAdapter.WeatherViewHolder>{
+public class WeeklyWeatherAdapter extends RecyclerView.Adapter<WeeklyWeatherAdapter.WeatherViewHolder> {
     private List<WeatherEntity> weatherList = new ArrayList<>();
     private OnItemClickListener listener;
-
-    public interface OnItemClickListener {
-        void onItemClick(WeatherEntity weather);
-    }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
@@ -33,10 +33,11 @@ public class WeeklyWeatherAdapter extends RecyclerView.Adapter<WeeklyWeatherAdap
         notifyDataSetChanged();
     }
 
+    @androidx.annotation.NonNull
     @Override
     public WeatherViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_weather_day, parent, false); // Your second layout file
+                .inflate(R.layout.item_weather_day, parent, false);
         return new WeatherViewHolder(view);
     }
 
@@ -51,10 +52,20 @@ public class WeeklyWeatherAdapter extends RecyclerView.Adapter<WeeklyWeatherAdap
         return weatherList.size();
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(WeatherEntity weather);
+    }
+
     public class WeatherViewHolder extends RecyclerView.ViewHolder {
-        private TextView Day, SummaryTemperature, SummaryHumidity, SummaryCondition, SummaryWind, SummaryUpdatedTime;
-        private ImageView SummaryWeather, SummaryExpand;
-        private LinearLayout expandedLayout;
+        private final TextView Day;
+        private final TextView SummaryTemperature;
+        private final TextView SummaryHumidity;
+        private final TextView SummaryCondition;
+        private final TextView SummaryWind;
+        private final TextView SummaryUpdatedTime;
+        private final ImageView SummaryWeather;
+        private final ImageView SummaryExpand;
+        private final LinearLayout expandedLayout;
         private boolean isExpanded = false;
 
         public WeatherViewHolder(@NonNull View itemView) {
@@ -77,12 +88,12 @@ public class WeeklyWeatherAdapter extends RecyclerView.Adapter<WeeklyWeatherAdap
             Date date = new Date(weather.getTimestamp());
             SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE, MMM dd", Locale.getDefault());
             SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
-
+            Locale locale = Locale.getDefault();
             Day.setText(dayFormat.format(date));
-            SummaryTemperature.setText(String.format("Temp: %.1f°C", weather.getTemperature()));
-            SummaryHumidity.setText(String.format("Humidity: %d%%", weather.getHumidity()));
+            SummaryTemperature.setText(String.format(locale, "Temp: %.0f°C", weather.getTemperature()));
+            SummaryHumidity.setText(String.format(locale, "Humidity: %d%%", weather.getHumidity()));
             SummaryCondition.setText(String.format("Condition: %s", weather.getCondition()));
-            SummaryWind.setText(String.format("Wind: %.1f km/h", weather.getWindSpeed()));
+            SummaryWind.setText(String.format(locale, "Wind: %.0f km/h", weather.getWindSpeed()));
             SummaryUpdatedTime.setText(String.format("Last updated: %s", timeFormat.format(date)));
 
             setWeatherIcon(weather.getCondition());
@@ -93,14 +104,14 @@ public class WeeklyWeatherAdapter extends RecyclerView.Adapter<WeeklyWeatherAdap
         }
 
         private void setWeatherIcon(String condition) {
-            int iconRes = R.drawable.partly_cloudy_svg;
+            int iconRes = R.drawable.partly_cloudy;
 
             switch (condition.toLowerCase()) {
                 case "sunny":
                     iconRes = R.drawable.sunny;
                     break;
                 case "partly cloudy":
-                    iconRes = R.drawable.partly_cloudy_svg;
+                    iconRes = R.drawable.partly_cloudy;
                     break;
                 case "cloudy":
                     iconRes = R.drawable.cloudy;
@@ -126,11 +137,11 @@ public class WeeklyWeatherAdapter extends RecyclerView.Adapter<WeeklyWeatherAdap
                 expandedLayout.setVisibility(View.VISIBLE);
                 SummaryExpand.animate().rotation(180).setDuration(300);
                 if (listener != null) {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(weatherList.get(position));
+                    int position = getBindingAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(weatherList.get(position));
+                    }
                 }
-            }
             } else {
                 expandedLayout.setVisibility(View.GONE);
                 SummaryExpand.animate().rotation(0).setDuration(300);
