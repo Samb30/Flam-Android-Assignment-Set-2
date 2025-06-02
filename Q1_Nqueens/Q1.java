@@ -63,7 +63,7 @@ public class Q1
 
     public static void main(String[] args) 
     {
-        int n = 4; // this value can be changed to test other inputs
+        int n = 4;
 
         List<List<String>> ans = func(n);
 
