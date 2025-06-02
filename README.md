@@ -54,7 +54,7 @@ The application is built using Java and Android Studio with the MVVM architectur
 - Displays temperature trends over the past 7 days.
 - Detailed daily weather info is available by clicking on specific days.
 - Implemented MVVM architecture with separate layers for Database, Model, Repository, Service, and ViewModel.
-- Error handling for network failures.
+- User-friendly error handling for network failures, api failures, and data access failures.
 
 ---
 
@@ -64,8 +64,8 @@ The application is built using Java and Android Studio with the MVVM architectur
 - Android SDK
 - MVVM Architecture
 - Room Database
-- WorkManager (for background sync)
-- Mock API Service (for network calls)
+- WorkManager
+- Mock API Service
 
 ---
 
@@ -85,12 +85,10 @@ The application is built using Java and Android Studio with the MVVM architectur
 ---
 
 
-### 🚀 How to Run
+### How to Run
 
 1. Clone the repository.
 2. Open in Android Studio.
 3. Build and run on an emulator or physical device.
 4. The app fetches mock weather data and updates every 6 hours automatically.
 5. Use the manual refresh button to trigger immediate updates.
-
-
